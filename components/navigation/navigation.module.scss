@@ -1,0 +1,28 @@
+.navigation {
+  z-index: 3;
+  background-color: green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow-y: scroll;
+
+  button {
+    position: absolute;
+    top: 5%;
+    left: 3%;
+  }
+
+  &.closed {
+    pointer-events: none;
+    display: none;
+
+    > * {
+      opacity: 0;
+    }
+  }
+}
