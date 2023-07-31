@@ -37,7 +37,7 @@ export function useTheatre(
   sheet,
   theatreKey,
   config,
-  { onValuesChange, lazy = true, deps = [] } = {}
+  { onValuesChange, lazy = true, deps = [] } = {},
 ) {
   const object = useTheatreObject(sheet, theatreKey, config, deps)
   const rafDriver = useCurrentRafDriver()

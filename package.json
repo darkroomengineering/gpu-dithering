@@ -14,22 +14,41 @@
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^9.2.0",
+    "@radix-ui/react-accordion": "^1.0.0",
+    "@radix-ui/react-select": "^1.2.0",
+    "@react-three/drei": "9.80.0",
+    "@react-three/fiber": "8.13.6",
     "@studio-freight/compono": "^0.0.21",
     "@studio-freight/hamo": "^0.6.19",
     "@studio-freight/react-lenis": "^0.0.25",
     "@studio-freight/tempus": "^0.0.38",
     "@theatre/core": "^0.6.1",
+    "@theatre/r3f": "0.6.1-dev.4",
     "@theatre/studio": "^0.6.1",
     "clsx": "^1.2.1",
+    "cross-env": "^7.0.3",
+    "duplicate-package-checker-webpack-plugin": "^3.0.0",
+    "embla-carousel": "7.1.0",
+    "embla-carousel-autoplay": "7.1.0",
+    "embla-carousel-react": "7.1.0",
+    "glslify-loader": "^2.0.0",
     "gsap": "3.12.2",
     "idb-keyval": "^6.2.1",
     "jsonminify": "^0.4.2",
+    "lint-staged": "^13.1.0",
+    "lottie-web": "^5.10.2",
     "next": "13.4.9",
+    "next-pwa": "5.6.0",
+    "next-seo": "^5.15.0",
     "next-sitemap": "^4.1.8",
+    "next-transpile-modules": "^9.1.0",
+    "postprocessing": "6.32.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sass": "^1.63.6",
     "stats.js": "^0.17.0",
+    "three": "0.155.0",
+    "tunnel-rat": "^0.1.2",
     "zustand": "4.3.9"
   },
   "devDependencies": {
@@ -49,7 +68,8 @@
   },
   "pnpm": {
     "overrides": {
-      "@studio-freight/react-lenis": "0.0.25"
+      "@studio-freight/react-lenis": "0.0.25",
+      "scheduler": "0.23.0"
     }
   },
   "lint-staged": {

@@ -79,7 +79,7 @@ export function useSheet(id, instance) {
 
   const sheet = useMemo(
     () => project?.sheet(id, instance),
-    [project, id, instance]
+    [project, id, instance],
   )
 
   return sheet
@@ -87,7 +87,7 @@ export function useSheet(id, instance) {
 
 export const SheetProvider = forwardRef(function SheetProvider(
   { children, id, instance },
-  ref
+  ref,
 ) {
   const sheet = useSheet(id, instance)
 

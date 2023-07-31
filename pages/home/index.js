@@ -1,13 +1,14 @@
+import { Hero } from 'components/hero'
 import { Layout } from 'layouts/default'
-import s from './home.module.scss'
+import { Canvas } from 'libs/webgl/components/canvas'
 
 export default function Home() {
   return (
-    <Layout theme="light">
-      <section className={s.content}>
-        <h1 className={s.title}>satus</h1>
-      </section>
-    </Layout>
+    <Canvas>
+      <Layout theme="light">
+        <Hero>satus</Hero>
+      </Layout>
+    </Canvas>
   )
 }
 

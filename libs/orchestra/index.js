@@ -10,7 +10,7 @@ import s from './orchestra.module.scss'
 
 const Studio = dynamic(
   () => import('libs/theatre/studio').then(({ Studio }) => Studio),
-  { ssr: false }
+  { ssr: false },
 )
 const Stats = dynamic(() => import('./stats').then(({ Stats }) => Stats), {
   ssr: false,
@@ -19,7 +19,7 @@ const GridDebugger = dynamic(
   () => import('./grid').then(({ GridDebugger }) => GridDebugger),
   {
     ssr: false,
-  }
+  },
 )
 
 // avoid to display debug tools on orchestra page
@@ -54,8 +54,8 @@ export const useOrchestraStore = create(
     {
       name: 'orchestra',
       storage: createJSONStorage(() => INDEXEDDB_STORAGE),
-    }
-  )
+    },
+  ),
 )
 
 broadcast(useOrchestraStore, 'orchestra')
@@ -65,7 +65,7 @@ export function Orchestra() {
 
   const { studio, stats, grid } = useOrchestraStore(
     ({ studio, stats, grid }) => ({ studio, stats, grid }),
-    shallow
+    shallow,
   )
 
   return (

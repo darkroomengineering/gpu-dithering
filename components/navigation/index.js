@@ -10,7 +10,7 @@ import s from './navigation.module.scss'
 export function Navigation() {
   const [navIsOpened, setNavIsOpened] = useStore(
     ({ navIsOpened, setNavIsOpened }) => [navIsOpened, setNavIsOpened],
-    shallow
+    shallow,
   )
 
   const router = useRouter()

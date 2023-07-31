@@ -33,11 +33,13 @@ export function Layout({
       <CustomHead {...seo} />
       <Lenis root>
         <div className={cn(`theme-${theme}`, s.layout, className)}>
-          <Cursor />
-          <Scrollbar />
-          <Header />
-          <main className={s.main}>{children}</main>
-          <Footer />
+          <div className={s.content}>
+            <Cursor />
+            <Scrollbar />
+            <Header />
+            <main className={s.main}>{children}</main>
+            <Footer />
+          </div>
         </div>
       </Lenis>
     </>
