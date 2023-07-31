@@ -1,0 +1,7 @@
+.hero {
+  height: calc(100 * var(--svh, 1vh));
+  height: calc(100svh);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
