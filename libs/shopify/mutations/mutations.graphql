@@ -1,0 +1,59 @@
+#import "../fragments/product.graphql"
+
+mutation cartCreation {
+  cartCreate {
+    cart {
+      id
+    }
+  }
+}
+
+mutation cartLinesAdd($lines: [CartLineInput!]!, $cartId: ID!) {
+  cartLinesAdd(lines: $lines, cartId: $cartId) {
+    cart {
+      id
+    }
+    userErrors {
+      code
+      field
+      message
+    }
+  }
+}
+
+mutation cartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+  cartLinesUpdate(cartId: $cartId, lines: $lines) {
+    cart {
+      id
+    }
+    userErrors {
+      code
+      field
+      message
+    }
+  }
+}
+
+mutation cartRemoveLineItem($cartId: ID!, $lineIds: [ID!]!) {
+  cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+    cart {
+      id
+    }
+  }
+}
+
+mutation cartDiscountdate($cartId: ID!, $discountCodes: [String!]!) {
+  cartDiscountCodesUpdate(cartId: $cartId, discountCodes: $discountCodes) {
+    cart {
+      id
+      discountCodes {
+        applicable
+        code
+      }
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}
