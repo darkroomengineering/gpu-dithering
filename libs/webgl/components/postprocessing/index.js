@@ -1,8 +1,9 @@
 import { useFrame, useThree } from '@react-three/fiber'
 import { useWindowSize } from '@studio-freight/hamo'
-import { EffectComposer, RenderPass } from 'postprocessing'
+import { EffectComposer, EffectPass, RenderPass } from 'postprocessing'
 import { useEffect, useMemo } from 'react'
 import { HalfFloatType } from 'three'
+import { useDitheringEffect } from './effects/dithering'
 
 export function PostProcessing() {
   const { gl, viewport, camera, scene } = useThree()
@@ -26,11 +27,19 @@ export function PostProcessing() {
     [scene, camera],
   )
 
+  const ditheringEffect = useDitheringEffect()
+  const ditheringPass = useMemo(
+    () => new EffectPass(camera, ditheringEffect),
+    [camera],
+  )
+
   useEffect(() => {
     composer.addPass(renderPass)
+    composer.addPass(ditheringPass)
 
     return () => {
       composer.removePass(renderPass)
+      composer.removePass(ditheringPass)
     }
   }, [composer, renderPass])
 

@@ -19,8 +19,8 @@ export function Canvas({ children }) {
 
   return (
     <CanvasContext.Provider value={{ WebGLTunnel, DOMTunnel }}>
-      {isWebGL && <WebGLCanvas />}
       {children}
+      {isWebGL && <WebGLCanvas />}
     </CanvasContext.Provider>
   )
 }
