@@ -29,6 +29,7 @@ export function useDitheringEffect() {
     ditheringFolder
       .addInput(PARAMS, 'luminanceFilter', {
         color: { type: 'float' },
+        label: 'luminance filter',
       })
       .on('change', ({ value }) => {
         effect.luminanceFilter = [value.r, value.g, value.b]
