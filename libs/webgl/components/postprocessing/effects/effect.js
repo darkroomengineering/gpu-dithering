@@ -1,8 +1,16 @@
 import { BLEND } from 'libs/webgl/utils/blend'
 import { Effect } from 'postprocessing'
+import { Color } from 'three'
+
+// http://alex-charlton.com/posts/Dithering_on_the_GPU/
+// https://surma.dev/things/ditherpunk/
+// https://offscreencanvas.com/issues/glsl-dithering/
 
 const fragmentShader = `
 ${BLEND.NORMAL}
+
+uniform vec3 uLuminanceFilter;
+uniform float uGammaCorrection;
 
 const int indexMatrix4x4[16] = int[](0,  8,  2,  10,
                                      12, 4,  14, 6,
@@ -51,17 +59,17 @@ float gammaCorrection(float value, float gamma) {
     return pow(value, 1.0 / gamma);
 }
 
-    float greyscale(vec3 color) {
-        float g = dot(color, vec3(0.2126, 0.7152, 0.0722));
+    float luminance(vec3 color) {
+        float g = dot(color, uLuminanceFilter);
         return g;
     }
 
 
 
     void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {
-        float grayscaled = greyscale(inputColor.rgb);
+        float grayscaled = luminance(inputColor.rgb);
         
-        vec3 grayscaleColor = vec3(grayscaled);
+        vec3 grayscaledColor = vec3(grayscaled);
 
         // if(uv.y > 0.9) {
         //     float x = uv.x;
@@ -81,17 +89,19 @@ float gammaCorrection(float value, float gamma) {
         //     outputColor = inputColor;
         // }
 
-        float dithered = dither(gammaCorrection(grayscaled, 0.60));
+        float dithered = dither(gammaCorrection(grayscaled, uGammaCorrection));
         vec3 ditheredColor = vec3(dithered);
 
 
-        vec3 color = blendNormal(grayscaleColor, ditheredColor, 0.35);
+        // vec3 color = blendNormal(grayscaledColor, ditheredColor, 0.35);
 
-        outputColor = vec4(color, inputColor.a);
+        // outputColor = vec4(color, inputColor.a);
+
+        outputColor = vec4(ditheredColor, inputColor.a);
 
         // outputColor = vec4(ditheredColor, inputColor.a);
 
-        // outputColor = vec4(grayscaleColor,1.0);
+        // outputColor = vec4(grayscaledColor,1.0);
 
         // outputColor = vec4(inputColor.rgb, 1.0);
 
@@ -100,9 +110,23 @@ float gammaCorrection(float value, float gamma) {
 `
 
 export class DitheringEffect extends Effect {
-  constructor() {
+  constructor({
+    luminanceFilter = new Color(0.2126, 0.7152, 0.0722),
+    gammaCorrection = 0.6,
+  } = {}) {
     super('DitheringEffect', fragmentShader, {
-      uniforms: new Map([]),
+      uniforms: new Map([
+        ['uLuminanceFilter', { value: luminanceFilter }],
+        ['uGammaCorrection', { value: gammaCorrection }],
+      ]),
     })
+  }
+
+  set luminanceFilter([x, y, z]) {
+    this.uniforms.get('uLuminanceFilter').value.set(x, y, z)
+  }
+
+  set gammaCorrection(value) {
+    this.uniforms.get('uGammaCorrection').value = value
   }
 }

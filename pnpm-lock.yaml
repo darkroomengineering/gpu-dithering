@@ -53,6 +53,7 @@ specifiers:
   stats.js: ^0.17.0
   three: 0.155.0
   tunnel-rat: ^0.1.2
+  tweakpane: ^3.1.10
   zustand: 4.3.9
 
 dependencies:
@@ -92,6 +93,7 @@ dependencies:
   stats.js: 0.17.0
   three: 0.155.0
   tunnel-rat: 0.1.2_react@18.2.0
+  tweakpane: 3.1.10
   zustand: 4.3.9_react@18.2.0
 
 devDependencies:
@@ -7014,6 +7016,10 @@ packages:
     transitivePeerDependencies:
       - immer
       - react
+    dev: false
+
+  /tweakpane/3.1.10:
+    resolution: {integrity: sha512-rqwnl/pUa7+inhI2E9ayGTqqP0EPOOn/wVvSWjZsRbZUItzNShny7pzwL3hVlaN4m9t/aZhsP0aFQ9U5VVR2VQ==}
     dev: false
 
   /type-check/0.4.0:

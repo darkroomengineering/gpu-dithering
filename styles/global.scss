@@ -63,3 +63,13 @@ svg.icon {
     stroke: currentColor;
   }
 }
+
+//tweakpane
+
+html {
+  overflow: hidden !important;
+}
+
+.tp-dfwv {
+  z-index: 100000;
+}
