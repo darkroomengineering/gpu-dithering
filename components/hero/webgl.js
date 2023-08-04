@@ -20,6 +20,7 @@ export function WebGL() {
   })
 
   const texture1 = useTexture('/placeholder/1.jpg')
+  const texture1sd = useTexture('/placeholder/1.avif')
   const texture2 = useTexture('/placeholder/2.jpg')
   const texture3 = useTexture('/placeholder/3.jpg')
 
@@ -34,15 +35,19 @@ export function WebGL() {
           <planeGeometry />
           <meshBasicMaterial>
             <GradientTexture
-              stops={[0, 0.1, 0.9, 1]} // As many stops as you want
+              stops={[0, 0.05, 0.95, 1]} // As many stops as you want
               colors={['white', 'white', 'black', 'black']} // Colors need to match the number of stops
               size={1024} // Size is optional, default = 1024
             />
           </meshBasicMaterial>
         </mesh>
-        <mesh position={[-300, 0, 0]} scale={400}>
+        <mesh position={[-300, 200, 0]} scale={400}>
           <planeGeometry />
           <meshBasicMaterial map={texture1} />
+        </mesh>
+        <mesh position={[-300, -200, 0]} scale={400}>
+          <planeGeometry />
+          <meshBasicMaterial map={texture1sd} />
         </mesh>
         <mesh position={[300, 0, 0]} scale={400}>
           <planeGeometry />

@@ -23,7 +23,7 @@ export function WebGLCanvas() {
         orthographic
         // camera={{ position: [0, 0, 5000], near: 0.001, far: 10000, zoom: 1 }}
         frameloop="never"
-        //   linear
+        linear
         flat
       >
         <Suspense>
