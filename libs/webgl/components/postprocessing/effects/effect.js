@@ -1,6 +1,6 @@
 import { BLEND } from 'libs/webgl/utils/blend'
 import { Effect } from 'postprocessing'
-import { Color } from 'three'
+import { Color, Vector2 } from 'three'
 
 // http://alex-charlton.com/posts/Dithering_on_the_GPU/
 // https://surma.dev/things/ditherpunk/
@@ -11,7 +11,9 @@ ${BLEND.NORMAL}
 
 uniform vec3 uLuminanceFilter;
 uniform float uGammaCorrection;
-uniform int uMatrix;
+// uniform int uMatrix;
+uniform sampler2D uMatrixTexture;
+uniform vec2 uMatrixTextureSize;
 
 const int BayerMatrix4x4[16] = int[](0,  8,  2,  10,
                                      12, 4,  14, 6,
@@ -37,17 +39,27 @@ const int ClusteredDotDiagonal8x8[64] = int[](24, 10, 12, 26, 35, 47, 49, 37,
                                              42, 56, 62, 52, 23, 7, 5, 17,
                                              32, 40, 54, 38, 31, 21, 19, 29);
 
-float indexValue(int size) {
-  int x = int(gl_FragCoord.x) % size;
-  int y = int(gl_FragCoord.y) % size;
-  int index = x + (y * size);
-  int length = size * size;
+float indexValue() {
+  // vec2 uv = gl_FragCoord.xy / resolution;
 
-  if(size == 4) {
-    return float(BayerMatrix4x4[index]) / float(length);
-  } else if(size == 8) {
-    return float(BayerMatrix8x8[index]) / float(length);
-  }
+  // int x = int(gl_FragCoord.x) % 8;
+  // int y = int(gl_FragCoord.y) % 8;
+  // int index = x + (y * size);
+  // int length = size * size;
+
+  // if(size == 4) {
+  //   return float(BayerMatrix4x4[index]) / float(length);
+  // } else if(size == 8) {
+  //   return float(BayerMatrix8x8[index]) / float(length);
+  // }
+
+  // vec2 coord = mod(gl_FragCoord.xy, uMatrixTextureSize);
+  // coord.x = 
+
+  float x = mod(gl_FragCoord.x, uMatrixTextureSize.x) / uMatrixTextureSize.x;
+  float y = mod(gl_FragCoord.y, uMatrixTextureSize.y) / uMatrixTextureSize.y;
+
+  return texture2D(uMatrixTexture, vec2(x,y)).r;
 }
 
 // float steps = 15.;
@@ -72,7 +84,7 @@ float dither(float value) {
     //   return (distance <= d) ? closestColor : secondClosestColor;
 
 
-    float threshold = indexValue(uMatrix);
+    float threshold = indexValue();
     return (value <= threshold) ? 0. : 1.;
     
 }
@@ -123,14 +135,6 @@ float gammaCorrection(float value, float gamma) {
         // outputColor = vec4(color, inputColor.a);
 
         outputColor = vec4(ditheredColor, inputColor.a);
-
-        // outputColor = vec4(ditheredColor, inputColor.a);
-
-        // outputColor = vec4(grayscaledColor,1.0);
-
-        // outputColor = vec4(inputColor.rgb, 1.0);
-
-        
     }
 `
 
@@ -138,13 +142,15 @@ export class DitheringEffect extends Effect {
   constructor({
     luminanceFilter = new Color(0.2126, 0.7152, 0.0722),
     gammaCorrection = 0.6,
-    matrix = 4,
+    // matrix = 4,
   } = {}) {
     super('DitheringEffect', fragmentShader, {
       uniforms: new Map([
         ['uLuminanceFilter', { value: luminanceFilter }],
         ['uGammaCorrection', { value: gammaCorrection }],
-        ['uMatrix', { value: matrix }],
+        // ['uMatrix', { value: matrix }],
+        ['uMatrixTexture', { value: null }],
+        ['uMatrixTextureSize', { value: new Vector2() }],
       ]),
     })
   }
@@ -157,7 +163,15 @@ export class DitheringEffect extends Effect {
     this.uniforms.get('uGammaCorrection').value = value
   }
 
-  set matrix(value) {
-    this.uniforms.get('uMatrix').value = value
+  // set matrix(value) {
+  //   this.uniforms.get('uMatrix').value = value
+  // }
+
+  set matrixTexture(value) {
+    this.uniforms.get('uMatrixTexture').value = value
+  }
+
+  set matrixTextureSize(value) {
+    this.uniforms.get('uMatrixTextureSize').value.copy(value)
   }
 }
