@@ -12,7 +12,7 @@ const DEFAULT_PARAMS = {
   // luminanceFilter: { r: 0.299, g: 0.587, b: 0.114 },
   gammaCorrection: 1,
   matrix: 8,
-  mode: ORDERED_DITHERERS.BAYER8x8,
+  mode: ORDERED_DITHERERS.BAYER_8x8,
   blending: {
     opacity: 0.35,
     mode: BlendFunction.NORMAL,
@@ -72,7 +72,7 @@ export function useDitheringEffect() {
         view: 'list',
         label: 'mode',
         options: ORDERED_DITHERERS,
-        value: ORDERED_DITHERERS.BAYER8x8,
+        value: ORDERED_DITHERERS.BAYER_8x8,
       })
       .on('change', ({ value }) => {
         console.log(value)
