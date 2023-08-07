@@ -21,8 +21,6 @@ export function Content() {
 
   const { size, gl } = useThree()
 
-  console.log(file)
-
   useEffect(() => {
     const button = GUI.addButton({
       title: 'Export',
