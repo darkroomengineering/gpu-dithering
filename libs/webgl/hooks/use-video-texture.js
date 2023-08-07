@@ -18,7 +18,15 @@ export function useVideoTexture(src) {
     videoElement.playsInline = true
     videoElement.play()
 
-    setTexture(new VideoTexture(videoElement))
+    videoElement.addEventListener(
+      'loadedmetadata',
+      () => {
+        setTexture(new VideoTexture(videoElement))
+      },
+      {
+        once: true,
+      },
+    )
 
     return () => {
       texture?.dispose()

@@ -7,11 +7,11 @@ import { useEffect, useState } from 'react'
 import { CanvasTexture, NearestFilter, Vector2 } from 'three'
 import { DitheringEffect } from './effect'
 
-const DEFAULT_PARAMS = {
+const DEFAULT_CONFIG = {
   // luminanceFilter: { r: 0.299, g: 0.587, b: 0.114 },
   gammaCorrection: 1,
   matrix: 8,
-  mode: ORDERED_DITHERERS.BAYER_8x8,
+  mode: 'BAYER_8x8',
   blending: {
     opacity: 0.35,
     mode: BlendFunction.NORMAL,
@@ -28,11 +28,11 @@ const DEFAULT_PARAMS = {
 //   },
 // }
 
-const PARAMS = structuredClone(DEFAULT_PARAMS)
+const CONFIG = structuredClone(DEFAULT_CONFIG)
 
 export function useDitheringEffect() {
   const [effect] = useState(() => new DitheringEffect())
-  const [mode, setMode] = useState(DEFAULT_PARAMS.mode)
+  const [mode, setMode] = useState(ORDERED_DITHERERS[CONFIG.mode])
 
   useEffect(() => {
     const ditheringFolder = GUI.addFolder({
@@ -54,7 +54,7 @@ export function useDitheringEffect() {
     // ]
 
     ditheringFolder
-      .addBinding(PARAMS, 'gammaCorrection', {
+      .addBinding(CONFIG, 'gammaCorrection', {
         min: 0,
         step: 0.01,
         max: 2,
@@ -63,18 +63,34 @@ export function useDitheringEffect() {
       .on('change', ({ value }) => {
         effect.gammaCorrection = value
       })
-    effect.gammaCorrection = PARAMS.gammaCorrection
+    effect.gammaCorrection = CONFIG.gammaCorrection
+
+    // ditheringFolder
+    //   .addBlade({
+    //     view: 'list',
+    //     label: 'mode',
+    //     options: Object.keys(ORDERED_DITHERERS).map((key) => ({
+    //       text: key,
+    //       value: key,
+    //     })),
+    //     value: 'BAYER_8x8',
+    //   })
+    //   .on('change', ({ value }) => {
+    //     console.log(value)
+    //     // setMode(value)
+    //     // effect.matrix = value
+    //   })
 
     ditheringFolder
-      .addBlade({
-        view: 'list',
+      .addBinding(CONFIG, 'mode', {
         label: 'mode',
-        options: ORDERED_DITHERERS,
-        value: ORDERED_DITHERERS.BAYER_8x8,
+        options: Object.keys(ORDERED_DITHERERS).map((key) => ({
+          text: key,
+          value: key,
+        })),
       })
       .on('change', ({ value }) => {
-        console.log(value)
-        setMode(value)
+        setMode(ORDERED_DITHERERS[value])
         // effect.matrix = value
       })
 
@@ -97,7 +113,7 @@ export function useDitheringEffect() {
     })
 
     blendingFolder
-      .addBinding(PARAMS.blending, 'opacity', {
+      .addBinding(CONFIG.blending, 'opacity', {
         min: 0,
         step: 0.01,
         max: 1,
@@ -106,17 +122,17 @@ export function useDitheringEffect() {
       .on('change', ({ value }) => {
         effect.blendMode.setOpacity(value)
       })
-    effect.blendMode.setOpacity(PARAMS.blending.opacity)
+    effect.blendMode.setOpacity(CONFIG.blending.opacity)
 
     blendingFolder
-      .addBinding(PARAMS.blending, 'mode', {
+      .addBinding(CONFIG.blending, 'mode', {
         label: 'mode',
         options: BlendFunction,
       })
       .on('change', ({ value }) => {
         effect.blendMode.blendFunction = value
       })
-    effect.blendMode.blendFunction = PARAMS.blending.mode
+    effect.blendMode.blendFunction = CONFIG.blending.mode
 
     return () => {
       ditheringFolder.dispose()
