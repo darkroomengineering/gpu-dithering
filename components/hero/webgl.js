@@ -20,9 +20,10 @@ export function WebGL() {
   })
 
   const texture1 = useTexture('/placeholder/1.jpg')
-  const texture1sd = useTexture('/placeholder/1.avif')
+  // const texture1sd = useTexture('/placeholder/1.avif')
   const texture2 = useTexture('/placeholder/2.jpg')
   const texture3 = useTexture('/placeholder/3.jpg')
+  const text = useTexture('/placeholder/text.png')
 
   return (
     <>
@@ -47,7 +48,7 @@ export function WebGL() {
         </mesh>
         <mesh position={[-300, -200, 0]} scale={400}>
           <planeGeometry />
-          <meshBasicMaterial map={texture1sd} />
+          <meshBasicMaterial map={text} transparent />
         </mesh>
         <mesh position={[300, 0, 0]} scale={400}>
           <planeGeometry />

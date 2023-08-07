@@ -2,6 +2,7 @@ import { OrthographicCamera } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
 import { useCanvas } from '../../hooks/use-canvas'
+import { Content } from '../content'
 import { PostProcessing } from '../postprocessing'
 import { RAF } from '../raf'
 import s from './webgl.module.scss'
@@ -37,6 +38,7 @@ export function WebGLCanvas() {
           <RAF />
           <PostProcessing />
           <WebGLTunnel.Out />
+          <Content />
         </Suspense>
       </Canvas>
       <DOMTunnel.Out />

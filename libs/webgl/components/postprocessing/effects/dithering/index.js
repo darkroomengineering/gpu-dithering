@@ -1,7 +1,6 @@
 // @refresh reset
 
-import { Pane } from 'tweakpane'
-
+import { GUI } from 'libs/gui'
 import { ORDERED_DITHERERS } from 'libs/webgl/utils/ordered-ditherers'
 import { BlendFunction } from 'postprocessing'
 import { useEffect, useState } from 'react'
@@ -36,13 +35,12 @@ export function useDitheringEffect() {
   const [mode, setMode] = useState(DEFAULT_PARAMS.mode)
 
   useEffect(() => {
-    const pane = new Pane()
-    const ditheringFolder = pane.addFolder({
+    const ditheringFolder = GUI.addFolder({
       title: 'dithering',
     })
 
     // ditheringFolder
-    //   .addInput(PARAMS, 'luminanceFilter', {
+    //   .addBinding(PARAMS, 'luminanceFilter', {
     //     color: { type: 'float' },
     //     label: 'luminance filter',
     //   })
@@ -56,7 +54,7 @@ export function useDitheringEffect() {
     // ]
 
     ditheringFolder
-      .addInput(PARAMS, 'gammaCorrection', {
+      .addBinding(PARAMS, 'gammaCorrection', {
         min: 0,
         step: 0.01,
         max: 2,
@@ -81,7 +79,7 @@ export function useDitheringEffect() {
       })
 
     // ditheringFolder
-    //   .addInput(PARAMS, 'matrix', {
+    //   .addBinding(PARAMS, 'matrix', {
     //     options: {
     //       'Bayer 4x4': 4,
     //       'Bayer 8x8': 8,
@@ -99,7 +97,7 @@ export function useDitheringEffect() {
     })
 
     blendingFolder
-      .addInput(PARAMS.blending, 'opacity', {
+      .addBinding(PARAMS.blending, 'opacity', {
         min: 0,
         step: 0.01,
         max: 1,
@@ -111,7 +109,7 @@ export function useDitheringEffect() {
     effect.blendMode.setOpacity(PARAMS.blending.opacity)
 
     blendingFolder
-      .addInput(PARAMS.blending, 'mode', {
+      .addBinding(PARAMS.blending, 'mode', {
         label: 'mode',
         options: BlendFunction,
       })
@@ -121,7 +119,8 @@ export function useDitheringEffect() {
     effect.blendMode.blendFunction = PARAMS.blending.mode
 
     return () => {
-      pane.dispose()
+      ditheringFolder.dispose()
+      // GUI.dispose()
     }
   }, [effect])
 
@@ -129,7 +128,7 @@ export function useDitheringEffect() {
     const buffer = document.createElement('canvas')
 
     const canvas = document.createElement('canvas')
-    document.body.appendChild(canvas)
+    // document.body.appendChild(canvas)
     canvas.style.position = 'fixed'
     canvas.style.top = '0'
     canvas.style.left = '0'
@@ -165,7 +164,6 @@ export function useDitheringEffect() {
     effect.matrixTextureSize = size
 
     return () => {
-      console.log('remove')
       canvas.remove()
     }
   }, [mode])

@@ -17,9 +17,7 @@ export function Hero({ children }) {
       <WebGLTunnel.In>
         <WebGL />
       </WebGLTunnel.In>
-      <section className={s.hero}>
-        <h1>{children}</h1>
-      </section>
+      <section className={s.hero}>{children}</section>
     </>
   )
 }

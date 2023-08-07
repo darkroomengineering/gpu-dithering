@@ -40,50 +40,14 @@ const int ClusteredDotDiagonal8x8[64] = int[](24, 10, 12, 26, 35, 47, 49, 37,
                                              32, 40, 54, 38, 31, 21, 19, 29);
 
 float indexValue() {
-  // vec2 uv = gl_FragCoord.xy / resolution;
-
-  // int x = int(gl_FragCoord.x) % 8;
-  // int y = int(gl_FragCoord.y) % 8;
-  // int index = x + (y * size);
-  // int length = size * size;
-
-  // if(size == 4) {
-  //   return float(BayerMatrix4x4[index]) / float(length);
-  // } else if(size == 8) {
-  //   return float(BayerMatrix8x8[index]) / float(length);
-  // }
-
-  // vec2 coord = mod(gl_FragCoord.xy, uMatrixTextureSize);
-  // coord.x = 
-
   float x = mod(gl_FragCoord.x, uMatrixTextureSize.x) / uMatrixTextureSize.x;
   float y = mod(gl_FragCoord.y, uMatrixTextureSize.y) / uMatrixTextureSize.y;
 
   return texture2D(uMatrixTexture, vec2(x,y)).r;
 }
 
-// float steps = 15.;
-
-//     float quantize(float color) {
-//         float barWidth = 1. / steps;
-//         float x = floor(color / barWidth) / (steps-1.);
-//         return x;
-//     }
-
 
 float dither(float value) {
-    // // float closestColor = color == 0.5 ? ((color < 0.5) ? 0. : 1.) : 1.;
-    // // float closestColor = color < 0.5 ? 0. : 1.;
-
-    // float closestColor = round(color);
-    // // return round(color);
-    
-    // float secondClosestColor = 1. - closestColor;
-    // float d = indexValue(uMatrix);
-    // float distance = abs(closestColor - color);
-    //   return (distance <= d) ? closestColor : secondClosestColor;
-
-
     float threshold = indexValue();
     return (value <= threshold) ? 0. : 1.;
     
@@ -95,9 +59,6 @@ float gammaCorrection(float value, float gamma) {
 }
 
     float luminance(vec3 color) {
-        // float g = dot(color, uLuminanceFilter);
-        // return g;
-
         return (color.r + color.g + color.b) / 3.;
     }
 
@@ -108,33 +69,11 @@ float gammaCorrection(float value, float gamma) {
         
         vec3 grayscaledColor = vec3(grayscaled);
 
-        // if(uv.y > 0.9) {
-        //     float x = uv.x;
-        //     outputColor = vec4( x, x, x, 1.);
-        // } else if(uv.y > 0.8) {
-        //     float barWidth = resolution.x / steps;
-        //     float x = floor(gl_FragCoord.x / barWidth) / (steps-1.);
-        //     outputColor = vec4( x, x, x, 1.);
-        // } else if(uv.y > 0.6) {
-        //     float color = quantize(grayscaled);
-
-        //     outputColor = vec4(vec3(color), inputColor.a);
-        // } else if(uv.y > 0.4) {
-        //     outputColor = vec4(vec3(dither(grayscaled)), inputColor.a);
-        //     // outputColor = vec4(vec3(indexValue()), inputColor.a);
-        // } else {
-        //     outputColor = inputColor;
-        // }
-
         float dithered = dither(gammaCorrection(grayscaled, uGammaCorrection));
         vec3 ditheredColor = vec3(dithered);
 
-
-        // vec3 color = blendNormal(grayscaledColor, ditheredColor, 0.35);
-
-        // outputColor = vec4(color, inputColor.a);
-
         outputColor = vec4(ditheredColor, inputColor.a);
+        outputColor.rgb = outputColor.rgb;
     }
 `
 

@@ -27,18 +27,26 @@ export function PostProcessing() {
     [scene, camera],
   )
 
+  // const pixelationEffect = usePixelationEffect()
+  // const pixelationPass = useMemo(
+  //   () => new EffectPass(camera, pixelationEffect),
+  //   [camera, pixelationEffect],
+  // )
+
   const ditheringEffect = useDitheringEffect()
   const ditheringPass = useMemo(
     () => new EffectPass(camera, ditheringEffect),
-    [camera],
+    [camera, ditheringEffect],
   )
 
   useEffect(() => {
     composer.addPass(renderPass)
+    // composer.addPass(pixelationPass)
     composer.addPass(ditheringPass)
 
     return () => {
       composer.removePass(renderPass)
+      // composer.removePass(pixelationPass)
       composer.removePass(ditheringPass)
     }
   }, [composer, renderPass])
