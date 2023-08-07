@@ -23,8 +23,7 @@ export function Content() {
 
   useEffect(() => {
     const button = GUI.addButton({
-      title: 'Export',
-      label: 'export',
+      title: 'export as image',
     }).on('click', () => {
       requestAnimationFrame(() => {
         const link = document.createElement('a')
