@@ -1,4 +1,6 @@
+import { GradientTexture } from '@react-three/drei'
 import { useThree } from '@react-three/fiber'
+import { useDebug } from '@studio-freight/hamo'
 import { GUI } from 'libs/gui'
 import { useCanvas } from 'libs/webgl/hooks/use-canvas'
 import { useEffect, useMemo, useState } from 'react'
@@ -24,6 +26,7 @@ export function Content() {
   useEffect(() => {
     const button = GUI.addButton({
       title: 'export as image',
+      index: 10,
     }).on('click', () => {
       requestAnimationFrame(() => {
         const link = document.createElement('a')
@@ -37,6 +40,8 @@ export function Content() {
       button.dispose()
     }
   }, [])
+
+  const debug = useDebug()
 
   return (
     <>
@@ -64,20 +69,22 @@ export function Content() {
         <Video src={src} scale={[size.width, size.height, 0]} />
       )}
 
-      {/* <mesh
-        position={[0, -400, 1]}
-        scale={[100, 1000, 1]}
-        rotation={[0, 0, -Math.PI / 2]}
-      >
-        <planeGeometry />
-        <meshBasicMaterial>
-          <GradientTexture
-            stops={[0, 0.05, 0.95, 1]} // As many stops as you want
-            colors={['white', 'white', 'black', 'black']} // Colors need to match the number of stops
-            size={1024} // Size is optional, default = 1024
-          />
-        </meshBasicMaterial>
-      </mesh> */}
+      {debug && (
+        <mesh
+          position={[0, -400, 1]}
+          scale={[100, 1000, 1]}
+          rotation={[0, 0, -Math.PI / 2]}
+        >
+          <planeGeometry />
+          <meshBasicMaterial>
+            <GradientTexture
+              stops={[0, 0.05, 0.95, 1]} // As many stops as you want
+              colors={['white', 'white', 'black', 'black']} // Colors need to match the number of stops
+              size={1024} // Size is optional, default = 1024
+            />
+          </meshBasicMaterial>
+        </mesh>
+      )}
     </>
   )
 }

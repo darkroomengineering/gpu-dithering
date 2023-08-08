@@ -13,7 +13,7 @@ const DEFAULT_CONFIG = {
   matrix: 8,
   mode: 'BAYER_8x8',
   blending: {
-    opacity: 0.35,
+    opacity: 1,
     mode: BlendFunction.NORMAL,
   },
 }
@@ -84,13 +84,18 @@ export function useDitheringEffect() {
     ditheringFolder
       .addBinding(CONFIG, 'mode', {
         label: 'mode',
-        options: Object.keys(ORDERED_DITHERERS).map((key) => ({
+        options: [...Object.keys(ORDERED_DITHERERS), 'RANDOM'].map((key) => ({
           text: key,
           value: key,
         })),
       })
       .on('change', ({ value }) => {
-        setMode(ORDERED_DITHERERS[value])
+        effect.random = value === 'RANDOM'
+
+        if (ORDERED_DITHERERS[value]) {
+          setMode(ORDERED_DITHERERS[value])
+        }
+
         // effect.matrix = value
       })
 
