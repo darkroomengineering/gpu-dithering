@@ -70,7 +70,7 @@ export function useDitheringEffect() {
       .addBinding(CONFIG, 'granularity', {
         min: 1,
         step: 1,
-        max: 10,
+        max: 100,
         label: 'granularity',
       })
       .on('change', ({ value }) => {

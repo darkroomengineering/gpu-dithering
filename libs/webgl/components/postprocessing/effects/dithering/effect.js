@@ -19,10 +19,9 @@ const fragmentShader = `
 
 
     float indexValue() {
-      float x = mod(gl_FragCoord.x / uGranularity , uMatrixTextureSize.x) / uMatrixTextureSize.x;
-      float y = mod(gl_FragCoord.y / uGranularity, uMatrixTextureSize.y) / uMatrixTextureSize.y;
+      vec2 coords = mod(gl_FragCoord.xy / uGranularity, uMatrixTextureSize) / uMatrixTextureSize;
 
-      return texture2D(uMatrixTexture, vec2(x,y)).r;
+      return texture2D(uMatrixTexture, coords).r;
     }
 
 
@@ -42,9 +41,15 @@ const fragmentShader = `
     }
 
 
+    // https://github.com/pmndrs/postprocessing/blob/main/src/effects/glsl/pixelation.frag
+    vec2 pixelation(vec2 uv) {
+      return d.xy * (floor((uv) * d.zw) + 0.5);
+    }
+
+
 
     void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {
-        vec2 pixelsUv = d.xy * (floor(uv * d.zw) + 0.5); // https://github.com/pmndrs/postprocessing/blob/main/src/effects/glsl/pixelation.frag
+        vec2 pixelsUv = pixelation(uv);
         vec3 rgb = texture2D(inputBuffer, pixelsUv).rgb;
         float grayscaled = luminance(rgb);
         
@@ -54,8 +59,6 @@ const fragmentShader = `
         vec3 ditheredColor = vec3(dithered);
 
         outputColor = vec4(ditheredColor * uColor, inputColor.a);
-
-        // outputColor.rgb = rgb;
     }
 `
 
@@ -123,7 +126,10 @@ export class DitheringEffect extends Effect {
     const d = this.granularity
     const x = d / resolution.x
     const y = d / resolution.y
-    this.uniforms.get('d').value.set(x, y, 1.0 / x, 1.0 / y)
+    const w = 1.0 / x
+    const z = 1.0 / y
+
+    this.uniforms.get('d').value.set(x, y, w, z)
     this.uniforms.get('uGranularity').value = d
   }
 }
