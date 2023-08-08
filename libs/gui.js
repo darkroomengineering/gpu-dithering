@@ -35,12 +35,12 @@ folder.addButton({ title: 'export' }).on('click', () => {
 
 folder.addButton({ title: 'reset' }).on('click', () => {
   GUI.importState(defaultConfig)
-  localStorage.setItem('config', JSON.stringify(defaultConfig))
+  localStorage.setItem('config', JSON.parse(defaultConfig))
 })
 
 setTimeout(() => {
   // persist config
-  defaultConfig = GUI.exportState()
+  defaultConfig = JSON.stringify(GUI.exportState())
   GUI.importState(JSON.parse(localStorage.getItem('config')) || {})
 
   GUI.on('change', () => {

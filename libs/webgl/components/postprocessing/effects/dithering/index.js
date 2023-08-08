@@ -10,7 +10,8 @@ import { DitheringEffect } from './effect'
 const DEFAULT_CONFIG = {
   // luminanceFilter: { r: 0.299, g: 0.587, b: 0.114 },
   gammaCorrection: 1,
-  matrix: 8,
+  color: { r: 1, g: 1, b: 1 },
+  granularity: 1,
   mode: 'BAYER_8x8',
   blending: {
     opacity: 1,
@@ -64,6 +65,28 @@ export function useDitheringEffect() {
         effect.gammaCorrection = value
       })
     effect.gammaCorrection = CONFIG.gammaCorrection
+
+    ditheringFolder
+      .addBinding(CONFIG, 'granularity', {
+        min: 1,
+        step: 1,
+        max: 10,
+        label: 'granularity',
+      })
+      .on('change', ({ value }) => {
+        effect.granularity = value
+      })
+    effect.granularity = CONFIG.granularity
+
+    ditheringFolder
+      .addBinding(CONFIG, 'color', {
+        color: { type: 'float' },
+        label: 'color',
+      })
+      .on('change', ({ value }) => {
+        effect.color = value
+      })
+    effect.color = CONFIG.color
 
     // ditheringFolder
     //   .addBlade({
