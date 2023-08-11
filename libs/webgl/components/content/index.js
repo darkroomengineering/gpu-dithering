@@ -51,7 +51,9 @@ export function Content() {
       .on('click', () => {
         const videoStream = gl.domElement.captureStream(60)
 
-        mediaRecorderRef.current = new MediaRecorder(videoStream)
+        mediaRecorderRef.current = new MediaRecorder(videoStream, {
+          mimeType: 'video/webm;codec=vp8',
+        })
         let chunks = []
 
         mediaRecorderRef.current.addEventListener('dataavailable', (e) => {
@@ -61,11 +63,11 @@ export function Content() {
         mediaRecorderRef.current.start()
 
         mediaRecorderRef.current.addEventListener('stop', () => {
-          const blob = new Blob(chunks, { type: 'video/mp4' })
+          const blob = new Blob(chunks, { type: 'video/webm;codec=vp8' })
           const videoURL = URL.createObjectURL(blob)
           chunks = []
           const link = document.createElement('a')
-          link.download = 'dithering.mp4'
+          link.download = 'dithering.webm'
           link.href = videoURL
           link.click()
         })
