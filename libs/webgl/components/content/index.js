@@ -3,7 +3,7 @@ import { useThree } from '@react-three/fiber'
 import { useDebug } from '@studio-freight/hamo'
 import { GUI } from 'libs/gui'
 import { useCanvas } from 'libs/webgl/hooks/use-canvas'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Dropzone from 'react-dropzone'
 import { Image } from '../image'
 import { Video } from '../video'
@@ -23,23 +23,69 @@ export function Content() {
 
   const { size, gl } = useThree()
 
+  const mediaRecorderRef = useRef()
+
   useEffect(() => {
-    const button = GUI.addButton({
-      title: 'export as image',
-      index: 10,
-    }).on('click', () => {
-      requestAnimationFrame(() => {
-        const link = document.createElement('a')
-        link.download = 'dithering.png'
-        link.href = gl.domElement.toDataURL()
-        link.click()
-      })
+    const exportFolder = GUI.addFolder({
+      title: 'export',
     })
 
+    exportFolder
+      .addButton({
+        title: 'export as image',
+        index: 10,
+      })
+      .on('click', () => {
+        requestAnimationFrame(() => {
+          const link = document.createElement('a')
+          link.download = 'dithering.png'
+          link.href = gl.domElement.toDataURL()
+          link.click()
+        })
+      })
+
+    exportFolder
+      .addButton({
+        title: 'start recording',
+      })
+      .on('click', () => {
+        const videoStream = gl.domElement.captureStream(60)
+
+        mediaRecorderRef.current = new MediaRecorder(videoStream)
+        let chunks = []
+
+        mediaRecorderRef.current.addEventListener('dataavailable', (e) => {
+          chunks.push(e.data)
+        })
+
+        mediaRecorderRef.current.start()
+
+        mediaRecorderRef.current.addEventListener('stop', () => {
+          const blob = new Blob(chunks, { type: 'video/mp4' })
+          const videoURL = URL.createObjectURL(blob)
+          chunks = []
+          const link = document.createElement('a')
+          link.download = 'dithering.mp4'
+          link.href = videoURL
+          link.click()
+        })
+      })
+
+    exportFolder
+      .addButton({
+        title: 'stop recording',
+      })
+      .on('click', () => {
+        if (mediaRecorderRef.current) {
+          mediaRecorderRef.current.stop()
+          mediaRecorderRef.current = undefined
+        }
+      })
+
     return () => {
-      button.dispose()
+      exportFolder.dispose()
     }
-  }, [])
+  }, [gl])
 
   const debug = useDebug()
 

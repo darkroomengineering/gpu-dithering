@@ -34,8 +34,9 @@ folder.addButton({ title: 'export' }).on('click', () => {
 })
 
 folder.addButton({ title: 'reset' }).on('click', () => {
-  GUI.importState(defaultConfig)
-  localStorage.setItem('config', JSON.parse(defaultConfig))
+  if (!defaultConfig) return
+  GUI.importState(JSON.parse(defaultConfig))
+  localStorage.setItem('config', JSON.stringify(defaultConfig))
 })
 
 setTimeout(() => {
