@@ -60,7 +60,7 @@
     "@next/bundle-analyzer": "^13.4.9",
     "@size-limit/preset-app": "^8.2.6",
     "@svgr/webpack": "^8.0.1",
-    "critters": "^0.0.19",
+    "critters": "^0.0.20",
     "cross-env": "^7.0.3",
     "eslint": "8.44.0",
     "eslint-config-next": "^13.4.9",
