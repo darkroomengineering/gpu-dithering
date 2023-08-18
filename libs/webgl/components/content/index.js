@@ -18,7 +18,7 @@ export function Content() {
   const isImage = file?.type.includes('image/')
 
   const src = useMemo(() => {
-    return file ? URL.createObjectURL(file) : '/placeholder/3.jpg'
+    return file ? URL.createObjectURL(file) : '/placeholder/4.jpg'
   }, [file])
 
   const { size, gl } = useThree()
