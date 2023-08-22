@@ -118,7 +118,7 @@ export function Content() {
 
           {isVideo && <Video src={src} scale={[size.width, size.height, 0]} />}
 
-          {isModel && <Model src={src} scale={[100, 100, 100]} />}
+          {isModel && <Model src={src} />}
         </>
       )}
 
