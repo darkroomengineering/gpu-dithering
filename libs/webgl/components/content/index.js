@@ -20,7 +20,7 @@ export function Content() {
   const isModel = file?.path.includes('.glb') || file?.path.includes('.gltf')
 
   const src = useMemo(() => {
-    return file ? URL.createObjectURL(file) : '/placeholder/3.jpg'
+    return file ? URL.createObjectURL(file) : '/placeholder/4.jpg'
   }, [file])
 
   const { size, gl } = useThree()
