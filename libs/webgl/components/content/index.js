@@ -6,6 +6,7 @@ import { useCanvas } from 'libs/webgl/hooks/use-canvas'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Dropzone from 'react-dropzone'
 import { Image } from '../image'
+import { Model } from '../model'
 import { Video } from '../video'
 import s from './content.module.scss'
 
@@ -16,6 +17,7 @@ export function Content() {
 
   const isVideo = file?.type.includes('video/')
   const isImage = file?.type.includes('image/')
+  const isModel = file?.path.includes('.glb') || file?.path.includes('.gltf')
 
   const src = useMemo(() => {
     return file ? URL.createObjectURL(file) : '/placeholder/3.jpg'
@@ -108,13 +110,16 @@ export function Content() {
           )}
         </Dropzone>
       </DOMTunnel.In>
+      {src && (
+        <>
+          {(isImage || !file) && (
+            <Image src={src} scale={[size.width, size.height, 0]} alt="" />
+          )}
 
-      {(isImage || !file) && src && (
-        <Image src={src} scale={[size.width, size.height, 0]} alt="" />
-      )}
+          {isVideo && <Video src={src} scale={[size.width, size.height, 0]} />}
 
-      {isVideo && src && (
-        <Video src={src} scale={[size.width, size.height, 0]} />
+          {isModel && <Model src={src} scale={[100, 100, 100]} />}
+        </>
       )}
 
       {debug && (
