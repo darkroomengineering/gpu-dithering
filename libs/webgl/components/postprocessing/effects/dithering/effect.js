@@ -28,6 +28,7 @@ const fragmentShader = `
     float dither(float value) {
         float threshold = uRandom ? rand(gl_FragCoord.xy * 10.) : indexValue();
 
+        value *= 0.985; // hot fix for correct dithering
         return (value <= threshold) ? 0. : 1.;
     }
 

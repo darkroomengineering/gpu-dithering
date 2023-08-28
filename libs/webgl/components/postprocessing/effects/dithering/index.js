@@ -187,8 +187,8 @@ export function useDitheringEffect() {
     const buffer32 = new Uint32Array(image.data.buffer)
 
     for (let i = 0; i < buffer32.length; i++) {
-      const value = mode.matrix[i] / (mode.max - 0.999)
-      // const value = mode.matrix[i] / mode.max
+      // const value = mode.matrix[i] / (mode.max - 0.999)
+      const value = mode.matrix[i] / mode.max
       const color = Math.floor(value * 255)
       buffer32[i] = (255 << 24) | (color << 16) | (color << 8) | color
     }
