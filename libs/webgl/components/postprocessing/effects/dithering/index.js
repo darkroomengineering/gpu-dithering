@@ -10,9 +10,10 @@ import { DitheringEffect } from './effect'
 const DEFAULT_CONFIG = {
   // luminanceFilter: { r: 0.299, g: 0.587, b: 0.114 },
   gammaCorrection: 1,
-  color: { r: 1, g: 1, b: 1 },
+  color: { r: 0, g: 0, b: 1 },
   granularity: 1,
   mode: 'BAYER_8x8',
+  opacity: 1,
   blending: {
     opacity: 1,
     mode: BlendFunction.NORMAL,
@@ -69,7 +70,7 @@ export function useDitheringEffect() {
     ditheringFolder
       .addBinding(CONFIG, 'granularity', {
         min: 1,
-        step: 0.1,
+        step: 1,
         max: 10,
         label: 'granularity',
       })
@@ -88,21 +89,17 @@ export function useDitheringEffect() {
       })
     effect.color = CONFIG.color
 
-    // ditheringFolder
-    //   .addBlade({
-    //     view: 'list',
-    //     label: 'mode',
-    //     options: Object.keys(ORDERED_DITHERERS).map((key) => ({
-    //       text: key,
-    //       value: key,
-    //     })),
-    //     value: 'BAYER_8x8',
-    //   })
-    //   .on('change', ({ value }) => {
-    //     console.log(value)
-    //     // setMode(value)
-    //     // effect.matrix = value
-    //   })
+    ditheringFolder
+      .addBinding(CONFIG, 'opacity', {
+        label: 'opacity',
+        min: 0,
+        step: 0.01,
+        max: 1,
+      })
+      .on('change', ({ value }) => {
+        effect.opacity = value
+      })
+    effect.opacity = CONFIG.opacity
 
     ditheringFolder
       .addBinding(CONFIG, 'mode', {
@@ -122,48 +119,36 @@ export function useDitheringEffect() {
         // effect.matrix = value
       })
 
-    // ditheringFolder
-    //   .addBinding(PARAMS, 'matrix', {
-    //     options: {
-    //       'Bayer 4x4': 4,
-    //       'Bayer 8x8': 8,
-    //     },
-    //     label: 'matrix',
+    // const blendingFolder = ditheringFolder.addFolder({
+    //   title: 'blending',
+    //   expanded: true,
+    // })
+
+    // blendingFolder
+    //   .addBinding(CONFIG.blending, 'opacity', {
+    //     min: 0,
+    //     step: 0.01,
+    //     max: 1,
+    //     label: 'opacity',
     //   })
     //   .on('change', ({ value }) => {
-    //     effect.matrix = value
+    //     effect.blendMode.setOpacity(value)
     //   })
-    // effect.matrix = PARAMS.matrix
+    // effect.blendMode.setOpacity(CONFIG.blending.opacity)
 
-    const blendingFolder = ditheringFolder.addFolder({
-      title: 'blending',
-      expanded: true,
-    })
-
-    blendingFolder
-      .addBinding(CONFIG.blending, 'opacity', {
-        min: 0,
-        step: 0.01,
-        max: 1,
-        label: 'opacity',
-      })
-      .on('change', ({ value }) => {
-        effect.blendMode.setOpacity(value)
-      })
-    effect.blendMode.setOpacity(CONFIG.blending.opacity)
-
-    blendingFolder
-      .addBinding(CONFIG.blending, 'mode', {
-        label: 'mode',
-        options: BlendFunction,
-      })
-      .on('change', ({ value }) => {
-        effect.blendMode.blendFunction = value
-      })
-    effect.blendMode.blendFunction = CONFIG.blending.mode
+    // blendingFolder
+    //   .addBinding(CONFIG.blending, 'mode', {
+    //     label: 'mode',
+    //     options: BlendFunction,
+    //   })
+    //   .on('change', ({ value }) => {
+    //     effect.blendMode.blendFunction = value
+    //   })
+    // effect.blendMode.blendFunction = CONFIG.blending.mode
 
     return () => {
       ditheringFolder.dispose()
+      // blendingFolder.dispose()
       // GUI.dispose()
     }
   }, [effect])

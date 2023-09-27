@@ -1,3 +1,4 @@
+import { BLEND } from 'libs/webgl/utils/blend'
 import { Effect } from 'postprocessing'
 import { Color, Vector2, Vector4 } from 'three'
 
@@ -6,8 +7,10 @@ import { Color, Vector2, Vector4 } from 'three'
 // https://offscreencanvas.com/issues/glsl-dithering/
 
 const fragmentShader = `
+    ${BLEND.NORMAL}
 
     uniform float uGammaCorrection;
+    uniform float uOpacity;
     uniform vec3 uColor;
     uniform float uMatrix;
     uniform sampler2D uMatrixTexture;
@@ -28,7 +31,7 @@ const fragmentShader = `
     float dither(float value) {
         float threshold = uRandom ? rand(gl_FragCoord.xy * 10.) : indexValue();
 
-        value *= 0.985; // hot fix for correct dithering
+        // value *= 0.985; // hot fix for correct dithering
         return (value <= threshold) ? 0. : 1.;
     }
 
@@ -59,7 +62,9 @@ const fragmentShader = `
         float dithered = dither(gammaCorrection(grayscaled, uGammaCorrection));
         vec3 ditheredColor = vec3(dithered);
 
-        outputColor = vec4(ditheredColor * uColor, inputColor.a);
+        vec3 color = blendNormal(grayscaledColor * uColor, ditheredColor + uColor, uOpacity);
+
+        outputColor = vec4(color, inputColor.a);
     }
 `
 
@@ -67,11 +72,13 @@ export class DitheringEffect extends Effect {
   constructor({
     gammaCorrection = 0.6,
     color = new Color(1, 1, 1),
+    opacity = 1,
     granularity = 1,
   } = {}) {
     super('DitheringEffect', fragmentShader, {
       uniforms: new Map([
         ['uGammaCorrection', { value: gammaCorrection }],
+        ['uOpacity', { value: opacity }],
         ['uColor', { value: color }],
         ['uMatrixTexture', { value: null }],
         ['uMatrixTextureSize', { value: new Vector2() }],
@@ -110,6 +117,10 @@ export class DitheringEffect extends Effect {
 
   get granularity() {
     return this._granularity
+  }
+
+  set opacity(value) {
+    this.uniforms.get('uOpacity').value = value
   }
 
   set granularity(value) {

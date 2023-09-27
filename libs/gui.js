@@ -1,7 +1,7 @@
 import DEFAULT_CONFIG from 'config/gui_config.json'
 import { Pane } from 'tweakpane'
 
-let defaultConfig
+// let defaultConfig
 
 export const GUI = new Pane()
 
@@ -26,7 +26,6 @@ folder.addButton({ title: 'import' }).on('click', () => {
 
 folder.addButton({ title: 'export' }).on('click', () => {
   const state = GUI.exportState()
-  console.log(state)
 
   const link = document.createElement('a')
   link.download = 'config.json'
@@ -37,19 +36,26 @@ folder.addButton({ title: 'export' }).on('click', () => {
 })
 
 folder.addButton({ title: 'reset' }).on('click', () => {
-  if (!defaultConfig) return
-  GUI.importState(JSON.parse(defaultConfig))
-  localStorage.setItem('config', JSON.stringify(defaultConfig))
+  // localStorage.removeItem('gpu-dithering-config')
+
+  // if (!defaultConfig) return
+  // GUI.importState(JSON.parse(defaultConfig))
+  // localStorage.setItem('config', JSON.stringify(defaultConfig))
+
+  GUI.importState(DEFAULT_CONFIG)
 })
 
 setTimeout(() => {
   GUI.importState(DEFAULT_CONFIG)
 
   // persist config
-  defaultConfig = JSON.stringify(GUI.exportState())
-  GUI.importState(JSON.parse(localStorage.getItem('config')) || {})
+  // defaultConfig = JSON.stringify(GUI.exportState())
+  // GUI.importState(JSON.parse(localStorage.getItem('config')) || {})
 
   GUI.on('change', () => {
-    localStorage.setItem('config', JSON.stringify(GUI.exportState()))
+    localStorage.setItem(
+      'gpu-dithering-config',
+      JSON.stringify(GUI.exportState()),
+    )
   })
 }, 1000)

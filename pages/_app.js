@@ -7,7 +7,6 @@ import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 import { GTM_ID } from 'libs/analytics'
 import { Orchestra } from 'libs/orchestra'
 import { useStore } from 'libs/store'
-import { ProjectProvider, RafDriverProvider } from 'libs/theatre'
 import Script from 'next/script'
 import { useEffect } from 'react'
 import 'styles/global.scss'
@@ -68,15 +67,8 @@ function MyApp({ Component, pageProps }) {
       )}
       <RealViewport />
       <DeviceDetectionProvider>
-        <ProjectProvider
-          id="Satus"
-          config="/config/Satus-2023-04-17T12_55_21.json"
-        >
-          <RafDriverProvider id="default">
-            <Component {...pageProps} />
-            <Orchestra />
-          </RafDriverProvider>
-        </ProjectProvider>
+        <Component {...pageProps} />
+        <Orchestra />
       </DeviceDetectionProvider>
     </>
   )

@@ -1,1 +1,94 @@
-{"disabled":false,"hidden":false,"children":[{"disabled":false,"hidden":false,"children":[{"disabled":false,"hidden":false,"title":"import"},{"disabled":false,"hidden":false,"title":"export"},{"disabled":false,"hidden":false,"title":"reset"}],"expanded":true,"title":"config"},{"disabled":false,"hidden":false,"children":[{"disabled":false,"hidden":false,"label":"gamma correction","max":2,"min":0,"binding":{"key":"gammaCorrection","value":2}},{"disabled":false,"hidden":false,"label":"granularity","max":10,"min":1,"binding":{"key":"granularity","value":1}},{"disabled":false,"hidden":false,"label":"color","binding":{"key":"color","value":{"r":1,"g":1,"b":1}}},{"disabled":false,"hidden":false,"label":"mode","options":[{"text":"BAYER_2x2","value":"BAYER_2x2"},{"text":"BAYER_4x4","value":"BAYER_4x4"},{"text":"BAYER_8x8","value":"BAYER_8x8"},{"text":"DOT_4x4","value":"DOT_4x4"},{"text":"DOT_6x6","value":"DOT_6x6"},{"text":"DOT_6x6_2","value":"DOT_6x6_2"},{"text":"DOT_6x6_3","value":"DOT_6x6_3"},{"text":"DOT_8x8","value":"DOT_8x8"},{"text":"VERTICAL_5x3","value":"VERTICAL_5x3"},{"text":"HORIZONTAL_3x5","value":"HORIZONTAL_3x5"},{"text":"DOT_DIAGONAL_6x6","value":"DOT_DIAGONAL_6x6"},{"text":"DOT_DIAGONAL_8x8","value":"DOT_DIAGONAL_8x8"},{"text":"DOT_DIAGONAL_8x8_2","value":"DOT_DIAGONAL_8x8_2"},{"text":"DOT_DIAGONAL_8x8_3","value":"DOT_DIAGONAL_8x8_3"},{"text":"DOT_DIAGONAL_16x16","value":"DOT_DIAGONAL_16x16"},{"text":"DOT_SPIRAL_5x5","value":"DOT_SPIRAL_5x5"},{"text":"DOT_HORIZONTAL_6x6","value":"DOT_HORIZONTAL_6x6"},{"text":"DOT_VERTICAL_6x6","value":"DOT_VERTICAL_6x6"},{"text":"RANDOM","value":"RANDOM"}],"binding":{"key":"mode","value":"DOT_DIAGONAL_16x16"}},{"disabled":false,"hidden":false,"children":[{"disabled":false,"hidden":false,"label":"opacity","max":1,"min":0,"binding":{"key":"opacity","value":1}},{"disabled":false,"hidden":false,"label":"mode","options":[{"text":"SKIP","value":9},{"text":"SET","value":30},{"text":"ADD","value":0},{"text":"ALPHA","value":1},{"text":"AVERAGE","value":2},{"text":"COLOR","value":3},{"text":"COLOR_BURN","value":4},{"text":"COLOR_DODGE","value":5},{"text":"DARKEN","value":6},{"text":"DIFFERENCE","value":7},{"text":"DIVIDE","value":8},{"text":"DST","value":9},{"text":"EXCLUSION","value":10},{"text":"HARD_LIGHT","value":11},{"text":"HARD_MIX","value":12},{"text":"HUE","value":13},{"text":"INVERT","value":14},{"text":"INVERT_RGB","value":15},{"text":"LIGHTEN","value":16},{"text":"LINEAR_BURN","value":17},{"text":"LINEAR_DODGE","value":18},{"text":"LINEAR_LIGHT","value":19},{"text":"LUMINOSITY","value":20},{"text":"MULTIPLY","value":21},{"text":"NEGATION","value":22},{"text":"NORMAL","value":23},{"text":"OVERLAY","value":24},{"text":"PIN_LIGHT","value":25},{"text":"REFLECT","value":26},{"text":"SATURATION","value":27},{"text":"SCREEN","value":28},{"text":"SOFT_LIGHT","value":29},{"text":"SRC","value":30},{"text":"SUBTRACT","value":31},{"text":"VIVID_LIGHT","value":32}],"binding":{"key":"mode","value":23}}],"expanded":true,"title":"blending"}],"expanded":true,"title":"dithering"},{"disabled":false,"hidden":false,"children":[{"disabled":false,"hidden":false,"title":"export as image"},{"disabled":false,"hidden":false,"title":"start recording"},{"disabled":false,"hidden":false,"title":"stop recording"}],"expanded":true,"title":"export"}],"expanded":true}
+{
+  "disabled": false,
+  "hidden": false,
+  "children": [
+    {
+      "disabled": false,
+      "hidden": false,
+      "children": [
+        { "disabled": false, "hidden": false, "title": "import" },
+        { "disabled": false, "hidden": false, "title": "export" },
+        { "disabled": false, "hidden": false, "title": "reset" }
+      ],
+      "expanded": true,
+      "title": "config"
+    },
+    {
+      "disabled": false,
+      "hidden": false,
+      "children": [
+        {
+          "disabled": false,
+          "hidden": false,
+          "label": "gamma correction",
+          "max": 2,
+          "min": 0,
+          "binding": { "key": "gammaCorrection", "value": 2 }
+        },
+        {
+          "disabled": false,
+          "hidden": false,
+          "label": "granularity",
+          "max": 10,
+          "min": 1,
+          "binding": { "key": "granularity", "value": 1 }
+        },
+        {
+          "disabled": false,
+          "hidden": false,
+          "label": "color",
+          "binding": { "key": "color", "value": { "r": 0, "g": 0, "b": 1 } }
+        },
+        {
+          "disabled": false,
+          "hidden": false,
+          "label": "opacity",
+          "max": 1,
+          "min": 0,
+          "binding": { "key": "opacity", "value": 1 }
+        },
+        {
+          "disabled": false,
+          "hidden": false,
+          "label": "mode",
+          "options": [
+            { "text": "BAYER_2x2", "value": "BAYER_2x2" },
+            { "text": "BAYER_4x4", "value": "BAYER_4x4" },
+            { "text": "BAYER_8x8", "value": "BAYER_8x8" },
+            { "text": "DOT_4x4", "value": "DOT_4x4" },
+            { "text": "DOT_6x6", "value": "DOT_6x6" },
+            { "text": "DOT_6x6_2", "value": "DOT_6x6_2" },
+            { "text": "DOT_6x6_3", "value": "DOT_6x6_3" },
+            { "text": "DOT_8x8", "value": "DOT_8x8" },
+            { "text": "VERTICAL_5x3", "value": "VERTICAL_5x3" },
+            { "text": "HORIZONTAL_3x5", "value": "HORIZONTAL_3x5" },
+            { "text": "DOT_DIAGONAL_6x6", "value": "DOT_DIAGONAL_6x6" },
+            { "text": "DOT_DIAGONAL_8x8", "value": "DOT_DIAGONAL_8x8" },
+            { "text": "DOT_DIAGONAL_8x8_2", "value": "DOT_DIAGONAL_8x8_2" },
+            { "text": "DOT_DIAGONAL_8x8_3", "value": "DOT_DIAGONAL_8x8_3" },
+            { "text": "DOT_DIAGONAL_16x16", "value": "DOT_DIAGONAL_16x16" },
+            { "text": "DOT_SPIRAL_5x5", "value": "DOT_SPIRAL_5x5" },
+            { "text": "DOT_HORIZONTAL_6x6", "value": "DOT_HORIZONTAL_6x6" },
+            { "text": "DOT_VERTICAL_6x6", "value": "DOT_VERTICAL_6x6" },
+            { "text": "RANDOM", "value": "RANDOM" }
+          ],
+          "binding": { "key": "mode", "value": "DOT_DIAGONAL_16x16" }
+        }
+      ],
+      "expanded": true,
+      "title": "dithering"
+    },
+    {
+      "disabled": false,
+      "hidden": false,
+      "children": [
+        { "disabled": false, "hidden": false, "title": "export as image" },
+        { "disabled": false, "hidden": false, "title": "start recording" },
+        { "disabled": false, "hidden": false, "title": "stop recording" }
+      ],
+      "expanded": true,
+      "title": "export"
+    }
+  ],
+  "expanded": true
+}
