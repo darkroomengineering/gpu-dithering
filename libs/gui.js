@@ -16,7 +16,6 @@ folder.addButton({ title: 'import' }).on('click', () => {
     const reader = new FileReader()
     reader.onload = () => {
       const state = JSON.parse(reader.result)
-      console.log(state)
       GUI.importState(state)
     }
     reader.readAsText(file)

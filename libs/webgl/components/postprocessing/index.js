@@ -54,10 +54,10 @@ export function PostProcessing() {
   const { width: windowWidth, height: windowHeight } = useWindowSize()
 
   useEffect(() => {
-    const width = Math.min(windowWidth, 2048)
-    const height = Math.min(windowHeight, 2048)
+    // const width = Math.min(windowWidth, 2048)
+    // const height = Math.min(windowHeight, 2048)
 
-    composer.setSize(width, height)
+    composer.setSize(windowWidth, windowHeight)
   }, [composer, windowWidth, windowHeight])
 
   useFrame((_, deltaTime) => {

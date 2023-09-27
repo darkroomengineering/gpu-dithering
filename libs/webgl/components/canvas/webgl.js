@@ -11,7 +11,7 @@ export function WebGLCanvas() {
   const { WebGLTunnel, DOMTunnel } = useCanvas()
 
   return (
-    <div className={s.webgl}>
+    <div className={s.webgl} id="webgl">
       <Canvas
         gl={{
           powerPreference: 'high-performance',
@@ -25,6 +25,7 @@ export function WebGLCanvas() {
         frameloop="never"
         linear
         flat
+        resize={{}}
       >
         <Suspense>
           <OrthographicCamera

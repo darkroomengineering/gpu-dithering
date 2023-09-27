@@ -23,9 +23,10 @@ export function Content() {
     return file ? URL.createObjectURL(file) : '/placeholder/3.jpg'
   }, [file])
 
-  const { size, gl } = useThree()
+  const { size, gl, setSize } = useThree()
 
   const mediaRecorderRef = useRef()
+  const assetRef = useRef()
 
   useEffect(() => {
     const exportFolder = GUI.addFolder({
@@ -38,12 +39,26 @@ export function Content() {
         index: 10,
       })
       .on('click', () => {
-        requestAnimationFrame(() => {
-          const link = document.createElement('a')
-          link.download = 'dithering.png'
-          link.href = gl.domElement.toDataURL()
-          link.click()
-        })
+        const oldSize = { ...size }
+
+        console.log(assetRef.current.size)
+
+        const { width, height } = assetRef.current.size
+
+        setSize(width, height)
+
+        setTimeout(() => {
+          requestAnimationFrame(() => {
+            const link = document.createElement('a')
+            link.download = 'dithering.png'
+            link.href = gl.domElement.toDataURL()
+            link.click()
+
+            requestAnimationFrame(() => {
+              setSize(oldSize.width, oldSize.height)
+            })
+          })
+        }, 100)
       })
 
     exportFolder
@@ -89,7 +104,7 @@ export function Content() {
     return () => {
       exportFolder.dispose()
     }
-  }, [gl])
+  }, [gl, size])
 
   const debug = useDebug()
 
@@ -113,10 +128,25 @@ export function Content() {
       {src && (
         <>
           {(isImage || !file) && (
-            <Image src={src} scale={[size.width, size.height, 0]} alt="" />
+            <Image
+              src={src}
+              scale={[size.width, size.height, 0]}
+              alt=""
+              ref={(node) => {
+                assetRef.current = node
+              }}
+            />
           )}
 
-          {isVideo && <Video src={src} scale={[size.width, size.height, 0]} />}
+          {isVideo && (
+            <Video
+              src={src}
+              scale={[size.width, size.height, 0]}
+              ref={(node) => {
+                assetRef.current = node
+              }}
+            />
+          )}
 
           {isModel && <Model src={src} />}
         </>

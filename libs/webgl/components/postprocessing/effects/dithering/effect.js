@@ -65,6 +65,8 @@ const fragmentShader = `
         vec3 color = blendNormal(grayscaledColor * uColor, ditheredColor + uColor, uOpacity);
 
         outputColor = vec4(color, inputColor.a);
+
+        // outputColor = vec4(inputColor.rgb, 1.);
     }
 `
 
