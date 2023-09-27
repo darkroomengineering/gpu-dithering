@@ -1,3 +1,4 @@
+import DEFAULT_CONFIG from 'config/gui_config.json'
 import { Pane } from 'tweakpane'
 
 let defaultConfig
@@ -14,7 +15,9 @@ folder.addButton({ title: 'import' }).on('click', () => {
     const file = input.files[0]
     const reader = new FileReader()
     reader.onload = () => {
-      GUI.importState(JSON.parse(reader.result))
+      const state = JSON.parse(reader.result)
+      console.log(state)
+      GUI.importState(state)
     }
     reader.readAsText(file)
   }
@@ -40,6 +43,8 @@ folder.addButton({ title: 'reset' }).on('click', () => {
 })
 
 setTimeout(() => {
+  GUI.importState(DEFAULT_CONFIG)
+
   // persist config
   defaultConfig = JSON.stringify(GUI.exportState())
   GUI.importState(JSON.parse(localStorage.getItem('config')) || {})

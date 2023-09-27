@@ -69,7 +69,7 @@ export function useDitheringEffect() {
     ditheringFolder
       .addBinding(CONFIG, 'granularity', {
         min: 1,
-        step: 1,
+        step: 0.1,
         max: 10,
         label: 'granularity',
       })
